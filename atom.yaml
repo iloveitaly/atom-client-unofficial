@@ -1,0 +1,888 @@
+openapi: 3.0.0
+info:
+  title: atom
+  version: 1.0.0
+  description: API documentation for Atom Tickets Partner APIs, providing access to venue, production, and showtime information.
+servers:
+  - url: http://api-beta.atomtickets.com
+    description: Beta server
+  - url: http://api-gamma.atomtickets.com
+    description: Gamma server
+  - url: http://api.atomtickets.com
+    description: Production server
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /partner/ping:
+    get:
+      summary: Ping partner API for health check
+      description: Checks the health of the API. Requires 'x-api-key' header.
+      responses:
+        '200':
+          description: Health check successful
+          content: {}
+
+  /partner/v1/venue/details/byLocation:
+    get:
+      summary: Query for venues by location
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Latitude of the center point
+        - name: lon
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Longitude of the center point
+        - name: radius
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Search radius in kilometers, maximum 80km
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Page number for pagination
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            maximum: 100
+          description: Number of items per page, default 25, maximum 100
+      responses:
+        '200':
+          description: Successful response, ordered by distance from lat/lon
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueDetailsResponse'
+
+  /partner/v1/venue/details/byIds:
+    post:
+      summary: Query for venues by IDs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetVenueDetailsRequest'
+      responses:
+        '200':
+          description: Successful response, includes kmDistance if LatLonPair is provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueDetailsResponse'
+
+  /partner/v1/venue/details/search:
+    get:
+      summary: Query for venues by name
+      parameters:
+        - name: term
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Search query for venue names
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Latitude of the center point
+        - name: lon
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Longitude of the center point
+        - name: radius
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Search radius in kilometers, maximum 80km
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Page number for pagination
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            maximum: 100
+          description: Number of items per page, default 25, maximum 100
+      responses:
+        '200':
+          description: Successful response, ordered by distance from lat/lon
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueDetailsResponse'
+
+  /partner/v1/venues/byVendorVenueId/{vendorVenueId}:
+    get:
+      summary: Query for venue by Vendor Venue ID
+      parameters:
+        - name: vendorVenueId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Vendor-specific venue identifier
+        - name: circuitId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Limits query to a specific circuit
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VenueDetailsResponse'
+
+  /partner/v1/production/ids/byVenue/{venueId}:
+    get:
+      summary: Get production IDs for a venue within a date range
+      description: Requires either isoStartDate and isoEndDate, or localStartDate and localEndDate. Results ordered by Atom Meter.
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier for the venue
+        - name: isoStartDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Start date in ISO8601 format without milliseconds
+        - name: isoEndDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: End date in ISO8601 format without milliseconds
+        - name: localStartDate
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Start date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+        - name: localEndDate
+          in: query
+          required: false
+          schema:
+            type: string
+          description: End date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+        - name: marketplaceId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Identifier for the marketplace
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionIdsResponse'
+
+  /partner/v1/production/details/byIds:
+    post:
+      summary: Get production details by IDs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetProductionDetailsRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionDetailsResponse'
+
+  /partner/v1/production/search/byName:
+    get:
+      summary: Search for production details by name
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Production name to search for
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionDetailsResponse'
+
+  /partner/v1/productions/byVendorProductionId/{vendorProductionId}:
+    get:
+      summary: Query for production by Vendor Production ID
+      parameters:
+        - name: vendorProductionId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Vendor-specific production identifier
+        - name: circuitId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Limits query to a specific circuit
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionDetailsResponse'
+
+  /partner/v1/showtime/details/byVenue/{venueId}:
+    get:
+      summary: Get showtimes for a venue within a date range
+      description: Requires either isoStartDate and isoEndDate, or localStartDate and localEndDate. Includes pre-order showtime data.
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier for the venue
+        - name: isoStartDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: Start date in ISO8601 format without milliseconds
+        - name: isoEndDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+          description: End date in ISO8601 format without milliseconds
+        - name: localStartDate
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Start date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+        - name: localEndDate
+          in: query
+          required: false
+          schema:
+            type: string
+          description: End date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+        - name: productionIds
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated list of production IDs to filter showtimes
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowtimeDetailsResponse'
+
+  /partner/v1/showtime/details/byIds:
+    post:
+      summary: Get showtime details by IDs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetShowtimeDetailsRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowtimeDetailsResponse'
+
+  /partner/v1/showtime/details/forVenues:
+    post:
+      summary: Get showtime details for multiple venues
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetShowtimesForVenuesRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowtimeDetailsForVenuesResponse'
+
+  /partner/v1/venues/{venueId}/showtimes/byVendorShowtimeId/{vendorShowtimeId}:
+    get:
+      summary: Query for showtime by venue ID and Vendor Showtime ID
+      parameters:
+        - name: venueId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier for the venue
+        - name: vendorShowtimeId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Vendor-specific showtime identifier
+        - name: circuitId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Limits query to a specific circuit
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowtimeDetailsResponse'
+
+  /partner/v1/venues/byVendorVenueId/{vendorVenueId}/showtimes/byVendorShowtimeId/{vendorShowtimeId}:
+    get:
+      summary: Query for showtime by Vendor Venue ID and Vendor Showtime ID
+      parameters:
+        - name: vendorVenueId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Vendor-specific venue identifier
+        - name: vendorShowtimeId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Vendor-specific showtime identifier
+        - name: circuitId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Limits query to a specific circuit
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowtimeDetailsResponse'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: API key provided by Atom Tickets, required for all requests.
+
+  schemas:
+    # Common Models
+    PageInfo:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of items per page
+        totalPages:
+          type: integer
+          description: Total number of pages
+    LatLonPair:
+      type: object
+      properties:
+        lat:
+          type: number
+          description: Latitude
+        lon:
+          type: number
+          description: Longitude
+    ISODateBounds:
+      type: object
+      properties:
+        isoStartDate:
+          type: string
+          format: date-time
+          description: Start date in ISO8601 format without milliseconds
+        isoEndDate:
+          type: string
+          format: date-time
+          description: End date in ISO8601 format without milliseconds
+    LocalDateBounds:
+      type: object
+      properties:
+        localStartDate:
+          type: string
+          description: Start date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+        localEndDate:
+          type: string
+          description: End date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+
+    # Request Models
+    GetVenueDetailsRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+          description: List of venue IDs
+        location:
+          $ref: '#/components/schemas/LatLonPair'
+          description: Optional location to calculate distance
+        page:
+          type: integer
+          description: Page number for pagination
+        pageSize:
+          type: integer
+          description: Number of items per page
+      required:
+        - ids
+    GetProductionDetailsRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+          description: List of production IDs
+        marketplaceId:
+          type: string
+          description: Marketplace identifier, defaults to 'US'
+        page:
+          type: integer
+          description: Page number for pagination
+        pageSize:
+          type: integer
+          description: Number of items per page
+      required:
+        - ids
+    GetShowtimeDetailsRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+          description: List of showtime IDs
+        page:
+          type: integer
+          description: Page number for pagination
+        pageSize:
+          type: integer
+          description: Number of items per page
+      required:
+        - ids
+    GetShowtimesForVenuesRequest:
+      type: object
+      properties:
+        venueIds:
+          type: array
+          items:
+            type: string
+          description: Set of venue IDs
+        productionIds:
+          type: array
+          items:
+            type: string
+          description: Optional set of production IDs to filter showtimes
+        isoDateBounds:
+          $ref: '#/components/schemas/ISODateBounds'
+          description: Optional ISO date range
+        localDateBounds:
+          $ref: '#/components/schemas/LocalDateBounds'
+          description: Optional local date range
+        includeProductionDetails:
+          type: boolean
+          description: Whether to include production details in the response
+        marketplaceId:
+          type: string
+          description: Optional marketplace identifier
+      required:
+        - venueIds
+
+    # Response Models - Venues
+    Address:
+      type: object
+      properties:
+        line:
+          type: string
+          description: Street address
+        city:
+          type: string
+          description: City
+        state:
+          type: string
+          description: State or province
+        postal:
+          type: string
+          description: Postal code
+        lat:
+          type: number
+          description: Latitude
+        lon:
+          type: number
+          description: Longitude
+    Properties:
+      type: object
+      properties:
+        supportsConcessions:
+          type: boolean
+          description: Whether the venue supports concessions
+        supported:
+          type: boolean
+          description: Whether the venue is supported by Atom Tickets
+    Venue:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique venue identifier
+        name:
+          type: string
+          description: Venue name
+        address:
+          $ref: '#/components/schemas/Address'
+        properties:
+          $ref: '#/components/schemas/Properties'
+        venueUrl:
+          type: string
+          description: URL to the venue's page
+        atomVenueId:
+          type: string
+          description: Atom-specific venue identifier
+    VenueDetail:
+      type: object
+      properties:
+        venue:
+          $ref: '#/components/schemas/Venue'
+        kmDistance:
+          type: number
+          description: Distance in kilometers from the specified location
+    VenueDetailsResponse:
+      type: object
+      properties:
+        venueDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/VenueDetail'
+          description: List of venue details
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+          description: Pagination information
+
+    # Response Models - Productions
+    ProductionIdsResponse:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+          description: List of production IDs
+    ImageData:
+      type: object
+      properties:
+        coverImageUrl:
+          type: string
+          description: URL to the cover image
+        promoImageUrls:
+          type: array
+          items:
+            type: string
+          description: List of promotional image URLs
+    TrailerData:
+      type: object
+      properties:
+        trailerUrls:
+          type: array
+          items:
+            type: string
+          description: List of trailer URLs
+    ProductionMedia:
+      type: object
+      properties:
+        imageData:
+          $ref: '#/components/schemas/ImageData'
+        trailerData:
+          $ref: '#/components/schemas/TrailerData'
+    Cast:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Actor's name
+        characterName:
+          type: string
+          description: Character played by the actor
+    Crew:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Crew member's name
+        role:
+          type: string
+          description: Crew member's role
+    Contributors:
+      type: object
+      properties:
+        cast:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cast'
+          description: List of cast members
+        crew:
+          type: array
+          items:
+            $ref: '#/components/schemas/Crew'
+          description: List of crew members
+    ProductionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique production identifier
+        name:
+          type: string
+          description: Production title
+        productionMedia:
+          $ref: '#/components/schemas/ProductionMedia'
+        contributors:
+          $ref: '#/components/schemas/Contributors'
+        synopsis:
+          type: string
+          description: Brief description of the production
+        advisoryRating:
+          type: string
+          description: Content advisory rating
+        genres:
+          type: array
+          items:
+            type: string
+          description: List of genres
+        runtimeMinutes:
+          type: integer
+          description: Runtime in minutes
+        releaseDate:
+          type: string
+          format: date
+          description: Release date in YYYY-MM-DD format
+        atomUserScore:
+          type: number
+          description: User score provided by Atom
+        productionUrl:
+          type: string
+          description: URL to the production's page
+        distributor:
+          type: string
+          description: Distributor of the production
+        imdbId:
+          type: string
+          description: IMDb identifier
+        atomProductionId:
+          type: string
+          description: Atom-specific production identifier
+    ProductionDetailsResponse:
+      type: object
+      properties:
+        productionDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductionDetail'
+          description: List of production details
+        pageInfo:
+          $ref: '#/components/schemas/PageInfo'
+          description: Pagination information
+
+    # Response Models - Showtimes
+    Attribute:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique attribute identifier
+        type:
+          type: string
+          description: Attribute type
+        iconUrl:
+          type: string
+          description: URL to the attribute's icon
+        friendlyName:
+          type: string
+          description: Human-readable name of the attribute
+        description:
+          type: string
+          description: Description of the attribute
+    Price:
+      type: object
+      properties:
+        value:
+          type: number
+          description: Price value
+        currencyCode:
+          type: string
+          description: ISO currency code
+    Offer:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Offer label (e.g., "Ticket", "Child")
+        price:
+          $ref: '#/components/schemas/Price'
+    OfferData:
+      type: object
+      properties:
+        offers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Offer'
+          description: List of pricing offers
+    ShowtimeDetail:
+      type: object
+      properties:
+        showtimeId:
+          type: string
+          description: Unique showtime identifier
+        productionId:
+          type: string
+          description: Associated production ID
+        venueId:
+          type: string
+          description: Associated venue ID
+        offerData:
+          $ref: '#/components/schemas/OfferData'
+        utcShowtimeStart:
+          type: string
+          format: date-time
+          description: Showtime start in UTC, ISO8601 format without milliseconds
+        localShowtimeStart:
+          type: string
+          format: date-time
+          description: Showtime start in local time, ISO8601 format
+        attributes:
+          type: array
+          items:
+            type: string
+          description: List of attribute keys referencing attributeMap
+        checkoutUrl:
+          type: string
+          description: URL for ticket checkout
+        availableInventory:
+          type: integer
+          description: Number of available tickets
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags for special event showtimes
+    PreOrderDetail:
+      type: object
+      properties:
+        productionId:
+          type: string
+          description: Associated production ID
+        venueId:
+          type: string
+          description: Associated venue ID
+        showtimeDays:
+          type: array
+          items:
+            type: string
+          description: List of pre-order showtime days
+    ShowtimeDetailsResponse:
+      type: object
+      properties:
+        showtimeDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowtimeDetail'
+          description: List of showtime details
+        preOrderDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/PreOrderDetail'
+          description: List of pre-order details
+        attributeMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Attribute'
+          description: Map of attribute keys to attribute details
+    VenueShowtimeDetails:
+      type: object
+      properties:
+        showtimeDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowtimeDetail'
+          description: List of showtime details for the venue
+        preOrderDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/PreOrderDetail'
+          description: List of pre-order details for the venue
+    ShowtimeDetailsForVenuesResponse:
+      type: object
+      properties:
+        venueShowtimeDetailsMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VenueShowtimeDetails'
+          description: Map of venue IDs to their showtime details
+        attributeMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Attribute'
+          description: Map of attribute keys to attribute details
+        productionDetailsMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ProductionDetail'
+          description: Map of production IDs to production details
