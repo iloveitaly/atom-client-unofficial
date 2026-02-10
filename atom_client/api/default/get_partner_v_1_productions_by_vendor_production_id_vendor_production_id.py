@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -12,8 +13,9 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     vendor_production_id: str,
     *,
-    circuit_id: Union[Unset, str] = UNSET,
+    circuit_id: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
     params: dict[str, Any] = {}
 
     params["circuitId"] = circuit_id
@@ -22,7 +24,9 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": f"/partner/v1/productions/byVendorProductionId/{vendor_production_id}",
+        "url": "/partner/v1/productions/byVendorProductionId/{vendor_production_id}".format(
+            vendor_production_id=quote(str(vendor_production_id), safe=""),
+        ),
         "params": params,
     }
 
@@ -30,12 +34,13 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[ProductionDetailsResponse]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> ProductionDetailsResponse | None:
     if response.status_code == 200:
         response_200 = ProductionDetailsResponse.from_dict(response.json())
 
         return response_200
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -43,7 +48,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[ProductionDetailsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -56,14 +61,14 @@ def _build_response(
 def sync_detailed(
     vendor_production_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
 ) -> Response[ProductionDetailsResponse]:
     """Query for production by Vendor Production ID
 
     Args:
         vendor_production_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,14 +93,14 @@ def sync_detailed(
 def sync(
     vendor_production_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
-) -> Optional[ProductionDetailsResponse]:
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
+) -> ProductionDetailsResponse | None:
     """Query for production by Vendor Production ID
 
     Args:
         vendor_production_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,14 +120,14 @@ def sync(
 async def asyncio_detailed(
     vendor_production_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
 ) -> Response[ProductionDetailsResponse]:
     """Query for production by Vendor Production ID
 
     Args:
         vendor_production_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -145,14 +150,14 @@ async def asyncio_detailed(
 async def asyncio(
     vendor_production_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
-) -> Optional[ProductionDetailsResponse]:
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
+) -> ProductionDetailsResponse | None:
     """Query for production by Vendor Production ID
 
     Args:
         vendor_production_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

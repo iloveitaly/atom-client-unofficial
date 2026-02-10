@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,20 +15,20 @@ T = TypeVar("T", bound="Address")
 class Address:
     """
     Attributes:
-        line (Union[Unset, str]): Street address
-        city (Union[Unset, str]): City
-        state (Union[Unset, str]): State or province
-        postal (Union[Unset, str]): Postal code
-        lat (Union[Unset, float]): Latitude
-        lon (Union[Unset, float]): Longitude
+        line (str | Unset): Street address
+        city (str | Unset): City
+        state (str | Unset): State or province
+        postal (str | Unset): Postal code
+        lat (float | Unset): Latitude
+        lon (float | Unset): Longitude
     """
 
-    line: Union[Unset, str] = UNSET
-    city: Union[Unset, str] = UNSET
-    state: Union[Unset, str] = UNSET
-    postal: Union[Unset, str] = UNSET
-    lat: Union[Unset, float] = UNSET
-    lon: Union[Unset, float] = UNSET
+    line: str | Unset = UNSET
+    city: str | Unset = UNSET
+    state: str | Unset = UNSET
+    postal: str | Unset = UNSET
+    lat: float | Unset = UNSET
+    lon: float | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

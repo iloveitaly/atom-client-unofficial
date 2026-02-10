@@ -1,4 +1,4 @@
-# atom-client
+# atom_client
 A client library for accessing atom
 
 ## Usage

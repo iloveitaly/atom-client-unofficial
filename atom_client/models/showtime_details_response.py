@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,32 +21,32 @@ T = TypeVar("T", bound="ShowtimeDetailsResponse")
 class ShowtimeDetailsResponse:
     """
     Attributes:
-        showtime_details (Union[Unset, list['ShowtimeDetail']]): List of showtime details
-        pre_order_details (Union[Unset, list['PreOrderDetail']]): List of pre-order details
-        attribute_map (Union[Unset, ShowtimeDetailsResponseAttributeMap]): Map of attribute keys to attribute details
+        showtime_details (list[ShowtimeDetail] | Unset): List of showtime details
+        pre_order_details (list[PreOrderDetail] | Unset): List of pre-order details
+        attribute_map (ShowtimeDetailsResponseAttributeMap | Unset): Map of attribute keys to attribute details
     """
 
-    showtime_details: Union[Unset, list["ShowtimeDetail"]] = UNSET
-    pre_order_details: Union[Unset, list["PreOrderDetail"]] = UNSET
-    attribute_map: Union[Unset, "ShowtimeDetailsResponseAttributeMap"] = UNSET
+    showtime_details: list[ShowtimeDetail] | Unset = UNSET
+    pre_order_details: list[PreOrderDetail] | Unset = UNSET
+    attribute_map: ShowtimeDetailsResponseAttributeMap | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        showtime_details: Union[Unset, list[dict[str, Any]]] = UNSET
+        showtime_details: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.showtime_details, Unset):
             showtime_details = []
             for showtime_details_item_data in self.showtime_details:
                 showtime_details_item = showtime_details_item_data.to_dict()
                 showtime_details.append(showtime_details_item)
 
-        pre_order_details: Union[Unset, list[dict[str, Any]]] = UNSET
+        pre_order_details: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.pre_order_details, Unset):
             pre_order_details = []
             for pre_order_details_item_data in self.pre_order_details:
                 pre_order_details_item = pre_order_details_item_data.to_dict()
                 pre_order_details.append(pre_order_details_item)
 
-        attribute_map: Union[Unset, dict[str, Any]] = UNSET
+        attribute_map: dict[str, Any] | Unset = UNSET
         if not isinstance(self.attribute_map, Unset):
             attribute_map = self.attribute_map.to_dict()
 
@@ -67,22 +69,26 @@ class ShowtimeDetailsResponse:
         from ..models.showtime_details_response_attribute_map import ShowtimeDetailsResponseAttributeMap
 
         d = dict(src_dict)
-        showtime_details = []
         _showtime_details = d.pop("showtimeDetails", UNSET)
-        for showtime_details_item_data in _showtime_details or []:
-            showtime_details_item = ShowtimeDetail.from_dict(showtime_details_item_data)
+        showtime_details: list[ShowtimeDetail] | Unset = UNSET
+        if _showtime_details is not UNSET:
+            showtime_details = []
+            for showtime_details_item_data in _showtime_details:
+                showtime_details_item = ShowtimeDetail.from_dict(showtime_details_item_data)
 
-            showtime_details.append(showtime_details_item)
+                showtime_details.append(showtime_details_item)
 
-        pre_order_details = []
         _pre_order_details = d.pop("preOrderDetails", UNSET)
-        for pre_order_details_item_data in _pre_order_details or []:
-            pre_order_details_item = PreOrderDetail.from_dict(pre_order_details_item_data)
+        pre_order_details: list[PreOrderDetail] | Unset = UNSET
+        if _pre_order_details is not UNSET:
+            pre_order_details = []
+            for pre_order_details_item_data in _pre_order_details:
+                pre_order_details_item = PreOrderDetail.from_dict(pre_order_details_item_data)
 
-            pre_order_details.append(pre_order_details_item)
+                pre_order_details.append(pre_order_details_item)
 
         _attribute_map = d.pop("attributeMap", UNSET)
-        attribute_map: Union[Unset, ShowtimeDetailsResponseAttributeMap]
+        attribute_map: ShowtimeDetailsResponseAttributeMap | Unset
         if isinstance(_attribute_map, Unset):
             attribute_map = UNSET
         else:

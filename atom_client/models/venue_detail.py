@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,16 +19,16 @@ T = TypeVar("T", bound="VenueDetail")
 class VenueDetail:
     """
     Attributes:
-        venue (Union[Unset, Venue]):
-        km_distance (Union[Unset, float]): Distance in kilometers from the specified location
+        venue (Venue | Unset):
+        km_distance (float | Unset): Distance in kilometers from the specified location
     """
 
-    venue: Union[Unset, "Venue"] = UNSET
-    km_distance: Union[Unset, float] = UNSET
+    venue: Venue | Unset = UNSET
+    km_distance: float | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        venue: Union[Unset, dict[str, Any]] = UNSET
+        venue: dict[str, Any] | Unset = UNSET
         if not isinstance(self.venue, Unset):
             venue = self.venue.to_dict()
 
@@ -48,7 +50,7 @@ class VenueDetail:
 
         d = dict(src_dict)
         _venue = d.pop("venue", UNSET)
-        venue: Union[Unset, Venue]
+        venue: Venue | Unset
         if isinstance(_venue, Unset):
             venue = UNSET
         else:

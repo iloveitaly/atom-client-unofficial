@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -13,8 +14,9 @@ def _get_kwargs(
     venue_id: str,
     vendor_showtime_id: str,
     *,
-    circuit_id: Union[Unset, str] = UNSET,
+    circuit_id: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
     params: dict[str, Any] = {}
 
     params["circuitId"] = circuit_id
@@ -23,7 +25,10 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": f"/partner/v1/venues/{venue_id}/showtimes/byVendorShowtimeId/{vendor_showtime_id}",
+        "url": "/partner/v1/venues/{venue_id}/showtimes/byVendorShowtimeId/{vendor_showtime_id}".format(
+            venue_id=quote(str(venue_id), safe=""),
+            vendor_showtime_id=quote(str(vendor_showtime_id), safe=""),
+        ),
         "params": params,
     }
 
@@ -31,12 +36,13 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[ShowtimeDetailsResponse]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> ShowtimeDetailsResponse | None:
     if response.status_code == 200:
         response_200 = ShowtimeDetailsResponse.from_dict(response.json())
 
         return response_200
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -44,7 +50,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[ShowtimeDetailsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -58,15 +64,15 @@ def sync_detailed(
     venue_id: str,
     vendor_showtime_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
 ) -> Response[ShowtimeDetailsResponse]:
     """Query for showtime by venue ID and Vendor Showtime ID
 
     Args:
         venue_id (str):
         vendor_showtime_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -93,15 +99,15 @@ def sync(
     venue_id: str,
     vendor_showtime_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
-) -> Optional[ShowtimeDetailsResponse]:
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
+) -> ShowtimeDetailsResponse | None:
     """Query for showtime by venue ID and Vendor Showtime ID
 
     Args:
         venue_id (str):
         vendor_showtime_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -123,15 +129,15 @@ async def asyncio_detailed(
     venue_id: str,
     vendor_showtime_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
 ) -> Response[ShowtimeDetailsResponse]:
     """Query for showtime by venue ID and Vendor Showtime ID
 
     Args:
         venue_id (str):
         vendor_showtime_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,15 +162,15 @@ async def asyncio(
     venue_id: str,
     vendor_showtime_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    circuit_id: Union[Unset, str] = UNSET,
-) -> Optional[ShowtimeDetailsResponse]:
+    client: AuthenticatedClient | Client,
+    circuit_id: str | Unset = UNSET,
+) -> ShowtimeDetailsResponse | None:
     """Query for showtime by venue ID and Vendor Showtime ID
 
     Args:
         venue_id (str):
         vendor_showtime_id (str):
-        circuit_id (Union[Unset, str]):
+        circuit_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

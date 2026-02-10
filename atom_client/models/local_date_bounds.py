@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,12 +15,12 @@ T = TypeVar("T", bound="LocalDateBounds")
 class LocalDateBounds:
     """
     Attributes:
-        local_start_date (Union[Unset, str]): Start date in YYYY-MM-DDTHH:MM:SS format (no timezone)
-        local_end_date (Union[Unset, str]): End date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+        local_start_date (str | Unset): Start date in YYYY-MM-DDTHH:MM:SS format (no timezone)
+        local_end_date (str | Unset): End date in YYYY-MM-DDTHH:MM:SS format (no timezone)
     """
 
-    local_start_date: Union[Unset, str] = UNSET
-    local_end_date: Union[Unset, str] = UNSET
+    local_start_date: str | Unset = UNSET
+    local_end_date: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

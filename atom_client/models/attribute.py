@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,18 +15,18 @@ T = TypeVar("T", bound="Attribute")
 class Attribute:
     """
     Attributes:
-        id (Union[Unset, str]): Unique attribute identifier
-        type_ (Union[Unset, str]): Attribute type
-        icon_url (Union[Unset, str]): URL to the attribute's icon
-        friendly_name (Union[Unset, str]): Human-readable name of the attribute
-        description (Union[Unset, str]): Description of the attribute
+        id (str | Unset): Unique attribute identifier
+        type_ (str | Unset): Attribute type
+        icon_url (str | Unset): URL to the attribute's icon
+        friendly_name (str | Unset): Human-readable name of the attribute
+        description (str | Unset): Description of the attribute
     """
 
-    id: Union[Unset, str] = UNSET
-    type_: Union[Unset, str] = UNSET
-    icon_url: Union[Unset, str] = UNSET
-    friendly_name: Union[Unset, str] = UNSET
-    description: Union[Unset, str] = UNSET
+    id: str | Unset = UNSET
+    type_: str | Unset = UNSET
+    icon_url: str | Unset = UNSET
+    friendly_name: str | Unset = UNSET
+    description: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

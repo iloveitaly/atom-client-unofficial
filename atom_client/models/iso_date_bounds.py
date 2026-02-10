@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -15,20 +17,20 @@ T = TypeVar("T", bound="ISODateBounds")
 class ISODateBounds:
     """
     Attributes:
-        iso_start_date (Union[Unset, datetime.datetime]): Start date in ISO8601 format without milliseconds
-        iso_end_date (Union[Unset, datetime.datetime]): End date in ISO8601 format without milliseconds
+        iso_start_date (datetime.datetime | Unset): Start date in ISO8601 format without milliseconds
+        iso_end_date (datetime.datetime | Unset): End date in ISO8601 format without milliseconds
     """
 
-    iso_start_date: Union[Unset, datetime.datetime] = UNSET
-    iso_end_date: Union[Unset, datetime.datetime] = UNSET
+    iso_start_date: datetime.datetime | Unset = UNSET
+    iso_end_date: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        iso_start_date: Union[Unset, str] = UNSET
+        iso_start_date: str | Unset = UNSET
         if not isinstance(self.iso_start_date, Unset):
             iso_start_date = self.iso_start_date.isoformat(timespec="seconds")
 
-        iso_end_date: Union[Unset, str] = UNSET
+        iso_end_date: str | Unset = UNSET
         if not isinstance(self.iso_end_date, Unset):
             iso_end_date = self.iso_end_date.isoformat(timespec="seconds")
 
@@ -46,14 +48,14 @@ class ISODateBounds:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         _iso_start_date = d.pop("isoStartDate", UNSET)
-        iso_start_date: Union[Unset, datetime.datetime]
+        iso_start_date: datetime.datetime | Unset
         if isinstance(_iso_start_date, Unset):
             iso_start_date = UNSET
         else:
             iso_start_date = isoparse(_iso_start_date)
 
         _iso_end_date = d.pop("isoEndDate", UNSET)
-        iso_end_date: Union[Unset, datetime.datetime]
+        iso_end_date: datetime.datetime | Unset
         if isinstance(_iso_end_date, Unset):
             iso_end_date = UNSET
         else:

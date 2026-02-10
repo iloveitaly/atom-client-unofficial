@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,23 +20,23 @@ T = TypeVar("T", bound="ProductionDetailsResponse")
 class ProductionDetailsResponse:
     """
     Attributes:
-        production_details (Union[Unset, list['ProductionDetail']]): List of production details
-        page_info (Union[Unset, PageInfo]):
+        production_details (list[ProductionDetail] | Unset): List of production details
+        page_info (PageInfo | Unset):
     """
 
-    production_details: Union[Unset, list["ProductionDetail"]] = UNSET
-    page_info: Union[Unset, "PageInfo"] = UNSET
+    production_details: list[ProductionDetail] | Unset = UNSET
+    page_info: PageInfo | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        production_details: Union[Unset, list[dict[str, Any]]] = UNSET
+        production_details: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.production_details, Unset):
             production_details = []
             for production_details_item_data in self.production_details:
                 production_details_item = production_details_item_data.to_dict()
                 production_details.append(production_details_item)
 
-        page_info: Union[Unset, dict[str, Any]] = UNSET
+        page_info: dict[str, Any] | Unset = UNSET
         if not isinstance(self.page_info, Unset):
             page_info = self.page_info.to_dict()
 
@@ -54,15 +56,17 @@ class ProductionDetailsResponse:
         from ..models.production_detail import ProductionDetail
 
         d = dict(src_dict)
-        production_details = []
         _production_details = d.pop("productionDetails", UNSET)
-        for production_details_item_data in _production_details or []:
-            production_details_item = ProductionDetail.from_dict(production_details_item_data)
+        production_details: list[ProductionDetail] | Unset = UNSET
+        if _production_details is not UNSET:
+            production_details = []
+            for production_details_item_data in _production_details:
+                production_details_item = ProductionDetail.from_dict(production_details_item_data)
 
-            production_details.append(production_details_item)
+                production_details.append(production_details_item)
 
         _page_info = d.pop("pageInfo", UNSET)
-        page_info: Union[Unset, PageInfo]
+        page_info: PageInfo | Unset
         if isinstance(_page_info, Unset):
             page_info = UNSET
         else:

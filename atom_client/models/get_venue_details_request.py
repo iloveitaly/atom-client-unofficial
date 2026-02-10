@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,21 +20,21 @@ class GetVenueDetailsRequest:
     """
     Attributes:
         ids (list[str]): List of venue IDs
-        location (Union[Unset, LatLonPair]):
-        page (Union[Unset, int]): Page number for pagination
-        page_size (Union[Unset, int]): Number of items per page
+        location (LatLonPair | Unset):
+        page (int | Unset): Page number for pagination
+        page_size (int | Unset): Number of items per page
     """
 
     ids: list[str]
-    location: Union[Unset, "LatLonPair"] = UNSET
-    page: Union[Unset, int] = UNSET
-    page_size: Union[Unset, int] = UNSET
+    location: LatLonPair | Unset = UNSET
+    page: int | Unset = UNSET
+    page_size: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         ids = self.ids
 
-        location: Union[Unset, dict[str, Any]] = UNSET
+        location: dict[str, Any] | Unset = UNSET
         if not isinstance(self.location, Unset):
             location = self.location.to_dict()
 
@@ -64,7 +66,7 @@ class GetVenueDetailsRequest:
         ids = cast(list[str], d.pop("ids"))
 
         _location = d.pop("location", UNSET)
-        location: Union[Unset, LatLonPair]
+        location: LatLonPair | Unset
         if isinstance(_location, Unset):
             location = UNSET
         else:

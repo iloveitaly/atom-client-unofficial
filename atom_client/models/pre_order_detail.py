@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union, cast
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,14 +15,14 @@ T = TypeVar("T", bound="PreOrderDetail")
 class PreOrderDetail:
     """
     Attributes:
-        production_id (Union[Unset, str]): Associated production ID
-        venue_id (Union[Unset, str]): Associated venue ID
-        showtime_days (Union[Unset, list[str]]): List of pre-order showtime days
+        production_id (str | Unset): Associated production ID
+        venue_id (str | Unset): Associated venue ID
+        showtime_days (list[str] | Unset): List of pre-order showtime days
     """
 
-    production_id: Union[Unset, str] = UNSET
-    venue_id: Union[Unset, str] = UNSET
-    showtime_days: Union[Unset, list[str]] = UNSET
+    production_id: str | Unset = UNSET
+    venue_id: str | Unset = UNSET
+    showtime_days: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -28,7 +30,7 @@ class PreOrderDetail:
 
         venue_id = self.venue_id
 
-        showtime_days: Union[Unset, list[str]] = UNSET
+        showtime_days: list[str] | Unset = UNSET
         if not isinstance(self.showtime_days, Unset):
             showtime_days = self.showtime_days
 

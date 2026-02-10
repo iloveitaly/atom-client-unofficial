@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,23 +20,23 @@ T = TypeVar("T", bound="VenueDetailsResponse")
 class VenueDetailsResponse:
     """
     Attributes:
-        venue_details (Union[Unset, list['VenueDetail']]): List of venue details
-        page_info (Union[Unset, PageInfo]):
+        venue_details (list[VenueDetail] | Unset): List of venue details
+        page_info (PageInfo | Unset):
     """
 
-    venue_details: Union[Unset, list["VenueDetail"]] = UNSET
-    page_info: Union[Unset, "PageInfo"] = UNSET
+    venue_details: list[VenueDetail] | Unset = UNSET
+    page_info: PageInfo | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        venue_details: Union[Unset, list[dict[str, Any]]] = UNSET
+        venue_details: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.venue_details, Unset):
             venue_details = []
             for venue_details_item_data in self.venue_details:
                 venue_details_item = venue_details_item_data.to_dict()
                 venue_details.append(venue_details_item)
 
-        page_info: Union[Unset, dict[str, Any]] = UNSET
+        page_info: dict[str, Any] | Unset = UNSET
         if not isinstance(self.page_info, Unset):
             page_info = self.page_info.to_dict()
 
@@ -54,15 +56,17 @@ class VenueDetailsResponse:
         from ..models.venue_detail import VenueDetail
 
         d = dict(src_dict)
-        venue_details = []
         _venue_details = d.pop("venueDetails", UNSET)
-        for venue_details_item_data in _venue_details or []:
-            venue_details_item = VenueDetail.from_dict(venue_details_item_data)
+        venue_details: list[VenueDetail] | Unset = UNSET
+        if _venue_details is not UNSET:
+            venue_details = []
+            for venue_details_item_data in _venue_details:
+                venue_details_item = VenueDetail.from_dict(venue_details_item_data)
 
-            venue_details.append(venue_details_item)
+                venue_details.append(venue_details_item)
 
         _page_info = d.pop("pageInfo", UNSET)
-        page_info: Union[Unset, PageInfo]
+        page_info: PageInfo | Unset
         if isinstance(_page_info, Unset):
             page_info = UNSET
         else:

@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,14 +15,14 @@ T = TypeVar("T", bound="PageInfo")
 class PageInfo:
     """
     Attributes:
-        page (Union[Unset, int]): Current page number
-        page_size (Union[Unset, int]): Number of items per page
-        total_pages (Union[Unset, int]): Total number of pages
+        page (int | Unset): Current page number
+        page_size (int | Unset): Number of items per page
+        total_pages (int | Unset): Total number of pages
     """
 
-    page: Union[Unset, int] = UNSET
-    page_size: Union[Unset, int] = UNSET
-    total_pages: Union[Unset, int] = UNSET
+    page: int | Unset = UNSET
+    page_size: int | Unset = UNSET
+    total_pages: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

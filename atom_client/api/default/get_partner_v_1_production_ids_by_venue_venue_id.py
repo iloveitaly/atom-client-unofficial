@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -13,20 +14,21 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     venue_id: str,
     *,
-    iso_start_date: Union[Unset, datetime.datetime] = UNSET,
-    iso_end_date: Union[Unset, datetime.datetime] = UNSET,
-    local_start_date: Union[Unset, str] = UNSET,
-    local_end_date: Union[Unset, str] = UNSET,
-    marketplace_id: Union[Unset, str] = UNSET,
+    iso_start_date: datetime.datetime | Unset = UNSET,
+    iso_end_date: datetime.datetime | Unset = UNSET,
+    local_start_date: str | Unset = UNSET,
+    local_end_date: str | Unset = UNSET,
+    marketplace_id: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
     params: dict[str, Any] = {}
 
-    json_iso_start_date: Union[Unset, str] = UNSET
+    json_iso_start_date: str | Unset = UNSET
     if not isinstance(iso_start_date, Unset):
         json_iso_start_date = iso_start_date.isoformat(timespec="seconds")
     params["isoStartDate"] = json_iso_start_date
 
-    json_iso_end_date: Union[Unset, str] = UNSET
+    json_iso_end_date: str | Unset = UNSET
     if not isinstance(iso_end_date, Unset):
         json_iso_end_date = iso_end_date.isoformat(timespec="seconds")
     params["isoEndDate"] = json_iso_end_date
@@ -41,20 +43,21 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": f"/partner/v1/production/ids/byVenue/{venue_id}",
+        "url": "/partner/v1/production/ids/byVenue/{venue_id}".format(
+            venue_id=quote(str(venue_id), safe=""),
+        ),
         "params": params,
     }
 
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[ProductionIdsResponse]:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ProductionIdsResponse | None:
     if response.status_code == 200:
         response_200 = ProductionIdsResponse.from_dict(response.json())
 
         return response_200
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -62,7 +65,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[ProductionIdsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -75,12 +78,12 @@ def _build_response(
 def sync_detailed(
     venue_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    iso_start_date: Union[Unset, datetime.datetime] = UNSET,
-    iso_end_date: Union[Unset, datetime.datetime] = UNSET,
-    local_start_date: Union[Unset, str] = UNSET,
-    local_end_date: Union[Unset, str] = UNSET,
-    marketplace_id: Union[Unset, str] = UNSET,
+    client: AuthenticatedClient | Client,
+    iso_start_date: datetime.datetime | Unset = UNSET,
+    iso_end_date: datetime.datetime | Unset = UNSET,
+    local_start_date: str | Unset = UNSET,
+    local_end_date: str | Unset = UNSET,
+    marketplace_id: str | Unset = UNSET,
 ) -> Response[ProductionIdsResponse]:
     """Get production IDs for a venue within a date range
 
@@ -89,11 +92,11 @@ def sync_detailed(
 
     Args:
         venue_id (str):
-        iso_start_date (Union[Unset, datetime.datetime]):
-        iso_end_date (Union[Unset, datetime.datetime]):
-        local_start_date (Union[Unset, str]):
-        local_end_date (Union[Unset, str]):
-        marketplace_id (Union[Unset, str]):
+        iso_start_date (datetime.datetime | Unset):
+        iso_end_date (datetime.datetime | Unset):
+        local_start_date (str | Unset):
+        local_end_date (str | Unset):
+        marketplace_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -122,13 +125,13 @@ def sync_detailed(
 def sync(
     venue_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    iso_start_date: Union[Unset, datetime.datetime] = UNSET,
-    iso_end_date: Union[Unset, datetime.datetime] = UNSET,
-    local_start_date: Union[Unset, str] = UNSET,
-    local_end_date: Union[Unset, str] = UNSET,
-    marketplace_id: Union[Unset, str] = UNSET,
-) -> Optional[ProductionIdsResponse]:
+    client: AuthenticatedClient | Client,
+    iso_start_date: datetime.datetime | Unset = UNSET,
+    iso_end_date: datetime.datetime | Unset = UNSET,
+    local_start_date: str | Unset = UNSET,
+    local_end_date: str | Unset = UNSET,
+    marketplace_id: str | Unset = UNSET,
+) -> ProductionIdsResponse | None:
     """Get production IDs for a venue within a date range
 
      Requires either isoStartDate and isoEndDate, or localStartDate and localEndDate. Results ordered by
@@ -136,11 +139,11 @@ def sync(
 
     Args:
         venue_id (str):
-        iso_start_date (Union[Unset, datetime.datetime]):
-        iso_end_date (Union[Unset, datetime.datetime]):
-        local_start_date (Union[Unset, str]):
-        local_end_date (Union[Unset, str]):
-        marketplace_id (Union[Unset, str]):
+        iso_start_date (datetime.datetime | Unset):
+        iso_end_date (datetime.datetime | Unset):
+        local_start_date (str | Unset):
+        local_end_date (str | Unset):
+        marketplace_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,12 +167,12 @@ def sync(
 async def asyncio_detailed(
     venue_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    iso_start_date: Union[Unset, datetime.datetime] = UNSET,
-    iso_end_date: Union[Unset, datetime.datetime] = UNSET,
-    local_start_date: Union[Unset, str] = UNSET,
-    local_end_date: Union[Unset, str] = UNSET,
-    marketplace_id: Union[Unset, str] = UNSET,
+    client: AuthenticatedClient | Client,
+    iso_start_date: datetime.datetime | Unset = UNSET,
+    iso_end_date: datetime.datetime | Unset = UNSET,
+    local_start_date: str | Unset = UNSET,
+    local_end_date: str | Unset = UNSET,
+    marketplace_id: str | Unset = UNSET,
 ) -> Response[ProductionIdsResponse]:
     """Get production IDs for a venue within a date range
 
@@ -178,11 +181,11 @@ async def asyncio_detailed(
 
     Args:
         venue_id (str):
-        iso_start_date (Union[Unset, datetime.datetime]):
-        iso_end_date (Union[Unset, datetime.datetime]):
-        local_start_date (Union[Unset, str]):
-        local_end_date (Union[Unset, str]):
-        marketplace_id (Union[Unset, str]):
+        iso_start_date (datetime.datetime | Unset):
+        iso_end_date (datetime.datetime | Unset):
+        local_start_date (str | Unset):
+        local_end_date (str | Unset):
+        marketplace_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -209,13 +212,13 @@ async def asyncio_detailed(
 async def asyncio(
     venue_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
-    iso_start_date: Union[Unset, datetime.datetime] = UNSET,
-    iso_end_date: Union[Unset, datetime.datetime] = UNSET,
-    local_start_date: Union[Unset, str] = UNSET,
-    local_end_date: Union[Unset, str] = UNSET,
-    marketplace_id: Union[Unset, str] = UNSET,
-) -> Optional[ProductionIdsResponse]:
+    client: AuthenticatedClient | Client,
+    iso_start_date: datetime.datetime | Unset = UNSET,
+    iso_end_date: datetime.datetime | Unset = UNSET,
+    local_start_date: str | Unset = UNSET,
+    local_end_date: str | Unset = UNSET,
+    marketplace_id: str | Unset = UNSET,
+) -> ProductionIdsResponse | None:
     """Get production IDs for a venue within a date range
 
      Requires either isoStartDate and isoEndDate, or localStartDate and localEndDate. Results ordered by
@@ -223,11 +226,11 @@ async def asyncio(
 
     Args:
         venue_id (str):
-        iso_start_date (Union[Unset, datetime.datetime]):
-        iso_end_date (Union[Unset, datetime.datetime]):
-        local_start_date (Union[Unset, str]):
-        local_end_date (Union[Unset, str]):
-        marketplace_id (Union[Unset, str]):
+        iso_start_date (datetime.datetime | Unset):
+        iso_end_date (datetime.datetime | Unset):
+        local_start_date (str | Unset):
+        local_end_date (str | Unset):
+        marketplace_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

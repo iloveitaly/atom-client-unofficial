@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,23 +20,23 @@ T = TypeVar("T", bound="Contributors")
 class Contributors:
     """
     Attributes:
-        cast (Union[Unset, list['Cast']]): List of cast members
-        crew (Union[Unset, list['Crew']]): List of crew members
+        cast (list[Cast] | Unset): List of cast members
+        crew (list[Crew] | Unset): List of crew members
     """
 
-    cast: Union[Unset, list["Cast"]] = UNSET
-    crew: Union[Unset, list["Crew"]] = UNSET
+    cast: list[Cast] | Unset = UNSET
+    crew: list[Crew] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        cast: Union[Unset, list[dict[str, Any]]] = UNSET
+        cast: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.cast, Unset):
             cast = []
             for cast_item_data in self.cast:
                 cast_item = cast_item_data.to_dict()
                 cast.append(cast_item)
 
-        crew: Union[Unset, list[dict[str, Any]]] = UNSET
+        crew: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.crew, Unset):
             crew = []
             for crew_item_data in self.crew:
@@ -57,19 +59,23 @@ class Contributors:
         from ..models.crew import Crew
 
         d = dict(src_dict)
-        cast = []
         _cast = d.pop("cast", UNSET)
-        for cast_item_data in _cast or []:
-            cast_item = Cast.from_dict(cast_item_data)
+        cast: list[Cast] | Unset = UNSET
+        if _cast is not UNSET:
+            cast = []
+            for cast_item_data in _cast:
+                cast_item = Cast.from_dict(cast_item_data)
 
-            cast.append(cast_item)
+                cast.append(cast_item)
 
-        crew = []
         _crew = d.pop("crew", UNSET)
-        for crew_item_data in _crew or []:
-            crew_item = Crew.from_dict(crew_item_data)
+        crew: list[Crew] | Unset = UNSET
+        if _crew is not UNSET:
+            crew = []
+            for crew_item_data in _crew:
+                crew_item = Crew.from_dict(crew_item_data)
 
-            crew.append(crew_item)
+                crew.append(crew_item)
 
         contributors = cls(
             cast=cast,

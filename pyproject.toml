@@ -1,5 +1,5 @@
 [project]
-name = "atom-client"
+name = "atom_client"
 version = "1.0.0"
 description = "A client library for accessing atom"
 readme = "README.md"

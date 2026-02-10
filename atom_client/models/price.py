@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,12 +15,12 @@ T = TypeVar("T", bound="Price")
 class Price:
     """
     Attributes:
-        value (Union[Unset, float]): Price value
-        currency_code (Union[Unset, str]): ISO currency code
+        value (float | Unset): Price value
+        currency_code (str | Unset): ISO currency code
     """
 
-    value: Union[Unset, float] = UNSET
-    currency_code: Union[Unset, str] = UNSET
+    value: float | Unset = UNSET
+    currency_code: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

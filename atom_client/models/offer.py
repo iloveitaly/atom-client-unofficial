@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,18 +19,18 @@ T = TypeVar("T", bound="Offer")
 class Offer:
     """
     Attributes:
-        label (Union[Unset, str]): Offer label (e.g., "Ticket", "Child")
-        price (Union[Unset, Price]):
+        label (str | Unset): Offer label (e.g., "Ticket", "Child")
+        price (Price | Unset):
     """
 
-    label: Union[Unset, str] = UNSET
-    price: Union[Unset, "Price"] = UNSET
+    label: str | Unset = UNSET
+    price: Price | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         label = self.label
 
-        price: Union[Unset, dict[str, Any]] = UNSET
+        price: dict[str, Any] | Unset = UNSET
         if not isinstance(self.price, Unset):
             price = self.price.to_dict()
 
@@ -50,7 +52,7 @@ class Offer:
         label = d.pop("label", UNSET)
 
         _price = d.pop("price", UNSET)
-        price: Union[Unset, Price]
+        price: Price | Unset
         if isinstance(_price, Unset):
             price = UNSET
         else:

@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,28 +21,28 @@ T = TypeVar("T", bound="ShowtimeDetail")
 class ShowtimeDetail:
     """
     Attributes:
-        showtime_id (Union[Unset, str]): Unique showtime identifier
-        production_id (Union[Unset, str]): Associated production ID
-        venue_id (Union[Unset, str]): Associated venue ID
-        offer_data (Union[Unset, OfferData]):
-        utc_showtime_start (Union[Unset, datetime.datetime]): Showtime start in UTC, ISO8601 format without milliseconds
-        local_showtime_start (Union[Unset, datetime.datetime]): Showtime start in local time, ISO8601 format
-        attributes (Union[Unset, list[str]]): List of attribute keys referencing attributeMap
-        checkout_url (Union[Unset, str]): URL for ticket checkout
-        available_inventory (Union[Unset, int]): Number of available tickets
-        tags (Union[Unset, list[str]]): Tags for special event showtimes
+        showtime_id (str | Unset): Unique showtime identifier
+        production_id (str | Unset): Associated production ID
+        venue_id (str | Unset): Associated venue ID
+        offer_data (OfferData | Unset):
+        utc_showtime_start (datetime.datetime | Unset): Showtime start in UTC, ISO8601 format without milliseconds
+        local_showtime_start (datetime.datetime | Unset): Showtime start in local time, ISO8601 format
+        attributes (list[str] | Unset): List of attribute keys referencing attributeMap
+        checkout_url (str | Unset): URL for ticket checkout
+        available_inventory (int | Unset): Number of available tickets
+        tags (list[str] | Unset): Tags for special event showtimes
     """
 
-    showtime_id: Union[Unset, str] = UNSET
-    production_id: Union[Unset, str] = UNSET
-    venue_id: Union[Unset, str] = UNSET
-    offer_data: Union[Unset, "OfferData"] = UNSET
-    utc_showtime_start: Union[Unset, datetime.datetime] = UNSET
-    local_showtime_start: Union[Unset, datetime.datetime] = UNSET
-    attributes: Union[Unset, list[str]] = UNSET
-    checkout_url: Union[Unset, str] = UNSET
-    available_inventory: Union[Unset, int] = UNSET
-    tags: Union[Unset, list[str]] = UNSET
+    showtime_id: str | Unset = UNSET
+    production_id: str | Unset = UNSET
+    venue_id: str | Unset = UNSET
+    offer_data: OfferData | Unset = UNSET
+    utc_showtime_start: datetime.datetime | Unset = UNSET
+    local_showtime_start: datetime.datetime | Unset = UNSET
+    attributes: list[str] | Unset = UNSET
+    checkout_url: str | Unset = UNSET
+    available_inventory: int | Unset = UNSET
+    tags: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -50,19 +52,19 @@ class ShowtimeDetail:
 
         venue_id = self.venue_id
 
-        offer_data: Union[Unset, dict[str, Any]] = UNSET
+        offer_data: dict[str, Any] | Unset = UNSET
         if not isinstance(self.offer_data, Unset):
             offer_data = self.offer_data.to_dict()
 
-        utc_showtime_start: Union[Unset, str] = UNSET
+        utc_showtime_start: str | Unset = UNSET
         if not isinstance(self.utc_showtime_start, Unset):
             utc_showtime_start = self.utc_showtime_start.isoformat(timespec="seconds")
 
-        local_showtime_start: Union[Unset, str] = UNSET
+        local_showtime_start: str | Unset = UNSET
         if not isinstance(self.local_showtime_start, Unset):
             local_showtime_start = self.local_showtime_start.isoformat(timespec="seconds")
 
-        attributes: Union[Unset, list[str]] = UNSET
+        attributes: list[str] | Unset = UNSET
         if not isinstance(self.attributes, Unset):
             attributes = self.attributes
 
@@ -70,7 +72,7 @@ class ShowtimeDetail:
 
         available_inventory = self.available_inventory
 
-        tags: Union[Unset, list[str]] = UNSET
+        tags: list[str] | Unset = UNSET
         if not isinstance(self.tags, Unset):
             tags = self.tags
 
@@ -112,21 +114,21 @@ class ShowtimeDetail:
         venue_id = d.pop("venueId", UNSET)
 
         _offer_data = d.pop("offerData", UNSET)
-        offer_data: Union[Unset, OfferData]
+        offer_data: OfferData | Unset
         if isinstance(_offer_data, Unset):
             offer_data = UNSET
         else:
             offer_data = OfferData.from_dict(_offer_data)
 
         _utc_showtime_start = d.pop("utcShowtimeStart", UNSET)
-        utc_showtime_start: Union[Unset, datetime.datetime]
+        utc_showtime_start: datetime.datetime | Unset
         if isinstance(_utc_showtime_start, Unset):
             utc_showtime_start = UNSET
         else:
             utc_showtime_start = isoparse(_utc_showtime_start)
 
         _local_showtime_start = d.pop("localShowtimeStart", UNSET)
-        local_showtime_start: Union[Unset, datetime.datetime]
+        local_showtime_start: datetime.datetime | Unset
         if isinstance(_local_showtime_start, Unset):
             local_showtime_start = UNSET
         else:

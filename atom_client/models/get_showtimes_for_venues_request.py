@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,33 +21,33 @@ class GetShowtimesForVenuesRequest:
     """
     Attributes:
         venue_ids (list[str]): Set of venue IDs
-        production_ids (Union[Unset, list[str]]): Optional set of production IDs to filter showtimes
-        iso_date_bounds (Union[Unset, ISODateBounds]):
-        local_date_bounds (Union[Unset, LocalDateBounds]):
-        include_production_details (Union[Unset, bool]): Whether to include production details in the response
-        marketplace_id (Union[Unset, str]): Optional marketplace identifier
+        production_ids (list[str] | Unset): Optional set of production IDs to filter showtimes
+        iso_date_bounds (ISODateBounds | Unset):
+        local_date_bounds (LocalDateBounds | Unset):
+        include_production_details (bool | Unset): Whether to include production details in the response
+        marketplace_id (str | Unset): Optional marketplace identifier
     """
 
     venue_ids: list[str]
-    production_ids: Union[Unset, list[str]] = UNSET
-    iso_date_bounds: Union[Unset, "ISODateBounds"] = UNSET
-    local_date_bounds: Union[Unset, "LocalDateBounds"] = UNSET
-    include_production_details: Union[Unset, bool] = UNSET
-    marketplace_id: Union[Unset, str] = UNSET
+    production_ids: list[str] | Unset = UNSET
+    iso_date_bounds: ISODateBounds | Unset = UNSET
+    local_date_bounds: LocalDateBounds | Unset = UNSET
+    include_production_details: bool | Unset = UNSET
+    marketplace_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         venue_ids = self.venue_ids
 
-        production_ids: Union[Unset, list[str]] = UNSET
+        production_ids: list[str] | Unset = UNSET
         if not isinstance(self.production_ids, Unset):
             production_ids = self.production_ids
 
-        iso_date_bounds: Union[Unset, dict[str, Any]] = UNSET
+        iso_date_bounds: dict[str, Any] | Unset = UNSET
         if not isinstance(self.iso_date_bounds, Unset):
             iso_date_bounds = self.iso_date_bounds.to_dict()
 
-        local_date_bounds: Union[Unset, dict[str, Any]] = UNSET
+        local_date_bounds: dict[str, Any] | Unset = UNSET
         if not isinstance(self.local_date_bounds, Unset):
             local_date_bounds = self.local_date_bounds.to_dict()
 
@@ -84,14 +86,14 @@ class GetShowtimesForVenuesRequest:
         production_ids = cast(list[str], d.pop("productionIds", UNSET))
 
         _iso_date_bounds = d.pop("isoDateBounds", UNSET)
-        iso_date_bounds: Union[Unset, ISODateBounds]
+        iso_date_bounds: ISODateBounds | Unset
         if isinstance(_iso_date_bounds, Unset):
             iso_date_bounds = UNSET
         else:
             iso_date_bounds = ISODateBounds.from_dict(_iso_date_bounds)
 
         _local_date_bounds = d.pop("localDateBounds", UNSET)
-        local_date_bounds: Union[Unset, LocalDateBounds]
+        local_date_bounds: LocalDateBounds | Unset
         if isinstance(_local_date_bounds, Unset):
             local_date_bounds = UNSET
         else:

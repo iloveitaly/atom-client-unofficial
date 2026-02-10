@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union, cast
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -14,15 +16,15 @@ class GetProductionDetailsRequest:
     """
     Attributes:
         ids (list[str]): List of production IDs
-        marketplace_id (Union[Unset, str]): Marketplace identifier, defaults to 'US'
-        page (Union[Unset, int]): Page number for pagination
-        page_size (Union[Unset, int]): Number of items per page
+        marketplace_id (str | Unset): Marketplace identifier, defaults to 'US'
+        page (int | Unset): Page number for pagination
+        page_size (int | Unset): Number of items per page
     """
 
     ids: list[str]
-    marketplace_id: Union[Unset, str] = UNSET
-    page: Union[Unset, int] = UNSET
-    page_size: Union[Unset, int] = UNSET
+    marketplace_id: str | Unset = UNSET
+    page: int | Unset = UNSET
+    page_size: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

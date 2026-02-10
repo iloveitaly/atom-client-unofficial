@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,12 +15,12 @@ T = TypeVar("T", bound="Properties")
 class Properties:
     """
     Attributes:
-        supports_concessions (Union[Unset, bool]): Whether the venue supports concessions
-        supported (Union[Unset, bool]): Whether the venue is supported by Atom Tickets
+        supports_concessions (bool | Unset): Whether the venue supports concessions
+        supported (bool | Unset): Whether the venue is supported by Atom Tickets
     """
 
-    supports_concessions: Union[Unset, bool] = UNSET
-    supported: Union[Unset, bool] = UNSET
+    supports_concessions: bool | Unset = UNSET
+    supported: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

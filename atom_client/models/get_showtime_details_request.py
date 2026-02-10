@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union, cast
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -14,13 +16,13 @@ class GetShowtimeDetailsRequest:
     """
     Attributes:
         ids (list[str]): List of showtime IDs
-        page (Union[Unset, int]): Page number for pagination
-        page_size (Union[Unset, int]): Number of items per page
+        page (int | Unset): Page number for pagination
+        page_size (int | Unset): Number of items per page
     """
 
     ids: list[str]
-    page: Union[Unset, int] = UNSET
-    page_size: Union[Unset, int] = UNSET
+    page: int | Unset = UNSET
+    page_size: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -21,9 +21,8 @@ def _get_kwargs(
         "url": "/partner/v1/showtime/details/forVenues",
     }
 
-    _body = body.to_dict()
+    _kwargs["json"] = body.to_dict()
 
-    _kwargs["json"] = _body
     headers["Content-Type"] = "application/json"
 
     _kwargs["headers"] = headers
@@ -31,12 +30,13 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[ShowtimeDetailsForVenuesResponse]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> ShowtimeDetailsForVenuesResponse | None:
     if response.status_code == 200:
         response_200 = ShowtimeDetailsForVenuesResponse.from_dict(response.json())
 
         return response_200
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -44,7 +44,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[ShowtimeDetailsForVenuesResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -56,7 +56,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: GetShowtimesForVenuesRequest,
 ) -> Response[ShowtimeDetailsForVenuesResponse]:
     """Get showtime details for multiple venues
@@ -85,9 +85,9 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: GetShowtimesForVenuesRequest,
-) -> Optional[ShowtimeDetailsForVenuesResponse]:
+) -> ShowtimeDetailsForVenuesResponse | None:
     """Get showtime details for multiple venues
 
     Args:
@@ -109,7 +109,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: GetShowtimesForVenuesRequest,
 ) -> Response[ShowtimeDetailsForVenuesResponse]:
     """Get showtime details for multiple venues
@@ -136,9 +136,9 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: GetShowtimesForVenuesRequest,
-) -> Optional[ShowtimeDetailsForVenuesResponse]:
+) -> ShowtimeDetailsForVenuesResponse | None:
     """Get showtime details for multiple venues
 
     Args:

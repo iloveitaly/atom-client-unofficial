@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import Any, TypeVar, Union, cast
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,14 +15,14 @@ T = TypeVar("T", bound="TrailerData")
 class TrailerData:
     """
     Attributes:
-        trailer_urls (Union[Unset, list[str]]): List of trailer URLs
+        trailer_urls (list[str] | Unset): List of trailer URLs
     """
 
-    trailer_urls: Union[Unset, list[str]] = UNSET
+    trailer_urls: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        trailer_urls: Union[Unset, list[str]] = UNSET
+        trailer_urls: list[str] | Unset = UNSET
         if not isinstance(self.trailer_urls, Unset):
             trailer_urls = self.trailer_urls
 

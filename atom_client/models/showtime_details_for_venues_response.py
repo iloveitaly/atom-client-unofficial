@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -23,29 +25,28 @@ T = TypeVar("T", bound="ShowtimeDetailsForVenuesResponse")
 class ShowtimeDetailsForVenuesResponse:
     """
     Attributes:
-        venue_showtime_details_map (Union[Unset, ShowtimeDetailsForVenuesResponseVenueShowtimeDetailsMap]): Map of venue
-            IDs to their showtime details
-        attribute_map (Union[Unset, ShowtimeDetailsForVenuesResponseAttributeMap]): Map of attribute keys to attribute
-            details
-        production_details_map (Union[Unset, ShowtimeDetailsForVenuesResponseProductionDetailsMap]): Map of production
-            IDs to production details
+        venue_showtime_details_map (ShowtimeDetailsForVenuesResponseVenueShowtimeDetailsMap | Unset): Map of venue IDs
+            to their showtime details
+        attribute_map (ShowtimeDetailsForVenuesResponseAttributeMap | Unset): Map of attribute keys to attribute details
+        production_details_map (ShowtimeDetailsForVenuesResponseProductionDetailsMap | Unset): Map of production IDs to
+            production details
     """
 
-    venue_showtime_details_map: Union[Unset, "ShowtimeDetailsForVenuesResponseVenueShowtimeDetailsMap"] = UNSET
-    attribute_map: Union[Unset, "ShowtimeDetailsForVenuesResponseAttributeMap"] = UNSET
-    production_details_map: Union[Unset, "ShowtimeDetailsForVenuesResponseProductionDetailsMap"] = UNSET
+    venue_showtime_details_map: ShowtimeDetailsForVenuesResponseVenueShowtimeDetailsMap | Unset = UNSET
+    attribute_map: ShowtimeDetailsForVenuesResponseAttributeMap | Unset = UNSET
+    production_details_map: ShowtimeDetailsForVenuesResponseProductionDetailsMap | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        venue_showtime_details_map: Union[Unset, dict[str, Any]] = UNSET
+        venue_showtime_details_map: dict[str, Any] | Unset = UNSET
         if not isinstance(self.venue_showtime_details_map, Unset):
             venue_showtime_details_map = self.venue_showtime_details_map.to_dict()
 
-        attribute_map: Union[Unset, dict[str, Any]] = UNSET
+        attribute_map: dict[str, Any] | Unset = UNSET
         if not isinstance(self.attribute_map, Unset):
             attribute_map = self.attribute_map.to_dict()
 
-        production_details_map: Union[Unset, dict[str, Any]] = UNSET
+        production_details_map: dict[str, Any] | Unset = UNSET
         if not isinstance(self.production_details_map, Unset):
             production_details_map = self.production_details_map.to_dict()
 
@@ -75,7 +76,7 @@ class ShowtimeDetailsForVenuesResponse:
 
         d = dict(src_dict)
         _venue_showtime_details_map = d.pop("venueShowtimeDetailsMap", UNSET)
-        venue_showtime_details_map: Union[Unset, ShowtimeDetailsForVenuesResponseVenueShowtimeDetailsMap]
+        venue_showtime_details_map: ShowtimeDetailsForVenuesResponseVenueShowtimeDetailsMap | Unset
         if isinstance(_venue_showtime_details_map, Unset):
             venue_showtime_details_map = UNSET
         else:
@@ -84,14 +85,14 @@ class ShowtimeDetailsForVenuesResponse:
             )
 
         _attribute_map = d.pop("attributeMap", UNSET)
-        attribute_map: Union[Unset, ShowtimeDetailsForVenuesResponseAttributeMap]
+        attribute_map: ShowtimeDetailsForVenuesResponseAttributeMap | Unset
         if isinstance(_attribute_map, Unset):
             attribute_map = UNSET
         else:
             attribute_map = ShowtimeDetailsForVenuesResponseAttributeMap.from_dict(_attribute_map)
 
         _production_details_map = d.pop("productionDetailsMap", UNSET)
-        production_details_map: Union[Unset, ShowtimeDetailsForVenuesResponseProductionDetailsMap]
+        production_details_map: ShowtimeDetailsForVenuesResponseProductionDetailsMap | Unset
         if isinstance(_production_details_map, Unset):
             production_details_map = UNSET
         else:

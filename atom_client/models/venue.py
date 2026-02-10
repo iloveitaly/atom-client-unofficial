@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,20 +20,20 @@ T = TypeVar("T", bound="Venue")
 class Venue:
     """
     Attributes:
-        id (Union[Unset, str]): Unique venue identifier
-        name (Union[Unset, str]): Venue name
-        address (Union[Unset, Address]):
-        properties (Union[Unset, Properties]):
-        venue_url (Union[Unset, str]): URL to the venue's page
-        atom_venue_id (Union[Unset, str]): Atom-specific venue identifier
+        id (str | Unset): Unique venue identifier
+        name (str | Unset): Venue name
+        address (Address | Unset):
+        properties (Properties | Unset):
+        venue_url (str | Unset): URL to the venue's page
+        atom_venue_id (str | Unset): Atom-specific venue identifier
     """
 
-    id: Union[Unset, str] = UNSET
-    name: Union[Unset, str] = UNSET
-    address: Union[Unset, "Address"] = UNSET
-    properties: Union[Unset, "Properties"] = UNSET
-    venue_url: Union[Unset, str] = UNSET
-    atom_venue_id: Union[Unset, str] = UNSET
+    id: str | Unset = UNSET
+    name: str | Unset = UNSET
+    address: Address | Unset = UNSET
+    properties: Properties | Unset = UNSET
+    venue_url: str | Unset = UNSET
+    atom_venue_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -39,11 +41,11 @@ class Venue:
 
         name = self.name
 
-        address: Union[Unset, dict[str, Any]] = UNSET
+        address: dict[str, Any] | Unset = UNSET
         if not isinstance(self.address, Unset):
             address = self.address.to_dict()
 
-        properties: Union[Unset, dict[str, Any]] = UNSET
+        properties: dict[str, Any] | Unset = UNSET
         if not isinstance(self.properties, Unset):
             properties = self.properties.to_dict()
 
@@ -80,14 +82,14 @@ class Venue:
         name = d.pop("name", UNSET)
 
         _address = d.pop("address", UNSET)
-        address: Union[Unset, Address]
+        address: Address | Unset
         if isinstance(_address, Unset):
             address = UNSET
         else:
             address = Address.from_dict(_address)
 
         _properties = d.pop("properties", UNSET)
-        properties: Union[Unset, Properties]
+        properties: Properties | Unset
         if isinstance(_properties, Unset):
             properties = UNSET
         else:

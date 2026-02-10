@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -14,9 +14,10 @@ def _get_kwargs(
     lat: float,
     lon: float,
     radius: float,
-    page: Union[Unset, int] = UNSET,
-    page_size: Union[Unset, int] = UNSET,
+    page: int | Unset = UNSET,
+    page_size: int | Unset = UNSET,
 ) -> dict[str, Any]:
+
     params: dict[str, Any] = {}
 
     params["lat"] = lat
@@ -40,13 +41,12 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[VenueDetailsResponse]:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> VenueDetailsResponse | None:
     if response.status_code == 200:
         response_200 = VenueDetailsResponse.from_dict(response.json())
 
         return response_200
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -54,7 +54,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[VenueDetailsResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -66,12 +66,12 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     lat: float,
     lon: float,
     radius: float,
-    page: Union[Unset, int] = UNSET,
-    page_size: Union[Unset, int] = UNSET,
+    page: int | Unset = UNSET,
+    page_size: int | Unset = UNSET,
 ) -> Response[VenueDetailsResponse]:
     """Query for venues by location
 
@@ -79,8 +79,8 @@ def sync_detailed(
         lat (float):
         lon (float):
         radius (float):
-        page (Union[Unset, int]):
-        page_size (Union[Unset, int]):
+        page (int | Unset):
+        page_size (int | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,21 +107,21 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     lat: float,
     lon: float,
     radius: float,
-    page: Union[Unset, int] = UNSET,
-    page_size: Union[Unset, int] = UNSET,
-) -> Optional[VenueDetailsResponse]:
+    page: int | Unset = UNSET,
+    page_size: int | Unset = UNSET,
+) -> VenueDetailsResponse | None:
     """Query for venues by location
 
     Args:
         lat (float):
         lon (float):
         radius (float):
-        page (Union[Unset, int]):
-        page_size (Union[Unset, int]):
+        page (int | Unset):
+        page_size (int | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -143,12 +143,12 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     lat: float,
     lon: float,
     radius: float,
-    page: Union[Unset, int] = UNSET,
-    page_size: Union[Unset, int] = UNSET,
+    page: int | Unset = UNSET,
+    page_size: int | Unset = UNSET,
 ) -> Response[VenueDetailsResponse]:
     """Query for venues by location
 
@@ -156,8 +156,8 @@ async def asyncio_detailed(
         lat (float):
         lon (float):
         radius (float):
-        page (Union[Unset, int]):
-        page_size (Union[Unset, int]):
+        page (int | Unset):
+        page_size (int | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -182,21 +182,21 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     lat: float,
     lon: float,
     radius: float,
-    page: Union[Unset, int] = UNSET,
-    page_size: Union[Unset, int] = UNSET,
-) -> Optional[VenueDetailsResponse]:
+    page: int | Unset = UNSET,
+    page_size: int | Unset = UNSET,
+) -> VenueDetailsResponse | None:
     """Query for venues by location
 
     Args:
         lat (float):
         lon (float):
         radius (float):
-        page (Union[Unset, int]):
-        page_size (Union[Unset, int]):
+        page (int | Unset):
+        page_size (int | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -20,36 +22,36 @@ T = TypeVar("T", bound="ProductionDetail")
 class ProductionDetail:
     """
     Attributes:
-        id (Union[Unset, str]): Unique production identifier
-        name (Union[Unset, str]): Production title
-        production_media (Union[Unset, ProductionMedia]):
-        contributors (Union[Unset, Contributors]):
-        synopsis (Union[Unset, str]): Brief description of the production
-        advisory_rating (Union[Unset, str]): Content advisory rating
-        genres (Union[Unset, list[str]]): List of genres
-        runtime_minutes (Union[Unset, int]): Runtime in minutes
-        release_date (Union[Unset, datetime.date]): Release date in YYYY-MM-DD format
-        atom_user_score (Union[Unset, float]): User score provided by Atom
-        production_url (Union[Unset, str]): URL to the production's page
-        distributor (Union[Unset, str]): Distributor of the production
-        imdb_id (Union[Unset, str]): IMDb identifier
-        atom_production_id (Union[Unset, str]): Atom-specific production identifier
+        id (str | Unset): Unique production identifier
+        name (str | Unset): Production title
+        production_media (ProductionMedia | Unset):
+        contributors (Contributors | Unset):
+        synopsis (str | Unset): Brief description of the production
+        advisory_rating (str | Unset): Content advisory rating
+        genres (list[str] | Unset): List of genres
+        runtime_minutes (int | Unset): Runtime in minutes
+        release_date (datetime.date | Unset): Release date in YYYY-MM-DD format
+        atom_user_score (float | Unset): User score provided by Atom
+        production_url (str | Unset): URL to the production's page
+        distributor (str | Unset): Distributor of the production
+        imdb_id (str | Unset): IMDb identifier
+        atom_production_id (str | Unset): Atom-specific production identifier
     """
 
-    id: Union[Unset, str] = UNSET
-    name: Union[Unset, str] = UNSET
-    production_media: Union[Unset, "ProductionMedia"] = UNSET
-    contributors: Union[Unset, "Contributors"] = UNSET
-    synopsis: Union[Unset, str] = UNSET
-    advisory_rating: Union[Unset, str] = UNSET
-    genres: Union[Unset, list[str]] = UNSET
-    runtime_minutes: Union[Unset, int] = UNSET
-    release_date: Union[Unset, datetime.date] = UNSET
-    atom_user_score: Union[Unset, float] = UNSET
-    production_url: Union[Unset, str] = UNSET
-    distributor: Union[Unset, str] = UNSET
-    imdb_id: Union[Unset, str] = UNSET
-    atom_production_id: Union[Unset, str] = UNSET
+    id: str | Unset = UNSET
+    name: str | Unset = UNSET
+    production_media: ProductionMedia | Unset = UNSET
+    contributors: Contributors | Unset = UNSET
+    synopsis: str | Unset = UNSET
+    advisory_rating: str | Unset = UNSET
+    genres: list[str] | Unset = UNSET
+    runtime_minutes: int | Unset = UNSET
+    release_date: datetime.date | Unset = UNSET
+    atom_user_score: float | Unset = UNSET
+    production_url: str | Unset = UNSET
+    distributor: str | Unset = UNSET
+    imdb_id: str | Unset = UNSET
+    atom_production_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -57,11 +59,11 @@ class ProductionDetail:
 
         name = self.name
 
-        production_media: Union[Unset, dict[str, Any]] = UNSET
+        production_media: dict[str, Any] | Unset = UNSET
         if not isinstance(self.production_media, Unset):
             production_media = self.production_media.to_dict()
 
-        contributors: Union[Unset, dict[str, Any]] = UNSET
+        contributors: dict[str, Any] | Unset = UNSET
         if not isinstance(self.contributors, Unset):
             contributors = self.contributors.to_dict()
 
@@ -69,13 +71,13 @@ class ProductionDetail:
 
         advisory_rating = self.advisory_rating
 
-        genres: Union[Unset, list[str]] = UNSET
+        genres: list[str] | Unset = UNSET
         if not isinstance(self.genres, Unset):
             genres = self.genres
 
         runtime_minutes = self.runtime_minutes
 
-        release_date: Union[Unset, str] = UNSET
+        release_date: str | Unset = UNSET
         if not isinstance(self.release_date, Unset):
             release_date = self.release_date.isoformat(timespec="seconds")
 
@@ -134,14 +136,14 @@ class ProductionDetail:
         name = d.pop("name", UNSET)
 
         _production_media = d.pop("productionMedia", UNSET)
-        production_media: Union[Unset, ProductionMedia]
+        production_media: ProductionMedia | Unset
         if isinstance(_production_media, Unset):
             production_media = UNSET
         else:
             production_media = ProductionMedia.from_dict(_production_media)
 
         _contributors = d.pop("contributors", UNSET)
-        contributors: Union[Unset, Contributors]
+        contributors: Contributors | Unset
         if isinstance(_contributors, Unset):
             contributors = UNSET
         else:
@@ -156,7 +158,7 @@ class ProductionDetail:
         runtime_minutes = d.pop("runtimeMinutes", UNSET)
 
         _release_date = d.pop("releaseDate", UNSET)
-        release_date: Union[Unset, datetime.date]
+        release_date: datetime.date | Unset
         if isinstance(_release_date, Unset):
             release_date = UNSET
         else:

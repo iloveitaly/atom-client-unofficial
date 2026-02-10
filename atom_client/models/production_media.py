@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,20 +20,20 @@ T = TypeVar("T", bound="ProductionMedia")
 class ProductionMedia:
     """
     Attributes:
-        image_data (Union[Unset, ImageData]):
-        trailer_data (Union[Unset, TrailerData]):
+        image_data (ImageData | Unset):
+        trailer_data (TrailerData | Unset):
     """
 
-    image_data: Union[Unset, "ImageData"] = UNSET
-    trailer_data: Union[Unset, "TrailerData"] = UNSET
+    image_data: ImageData | Unset = UNSET
+    trailer_data: TrailerData | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        image_data: Union[Unset, dict[str, Any]] = UNSET
+        image_data: dict[str, Any] | Unset = UNSET
         if not isinstance(self.image_data, Unset):
             image_data = self.image_data.to_dict()
 
-        trailer_data: Union[Unset, dict[str, Any]] = UNSET
+        trailer_data: dict[str, Any] | Unset = UNSET
         if not isinstance(self.trailer_data, Unset):
             trailer_data = self.trailer_data.to_dict()
 
@@ -52,14 +54,14 @@ class ProductionMedia:
 
         d = dict(src_dict)
         _image_data = d.pop("imageData", UNSET)
-        image_data: Union[Unset, ImageData]
+        image_data: ImageData | Unset
         if isinstance(_image_data, Unset):
             image_data = UNSET
         else:
             image_data = ImageData.from_dict(_image_data)
 
         _trailer_data = d.pop("trailerData", UNSET)
-        trailer_data: Union[Unset, TrailerData]
+        trailer_data: TrailerData | Unset
         if isinstance(_trailer_data, Unset):
             trailer_data = UNSET
         else:

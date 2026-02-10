@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,14 +19,14 @@ T = TypeVar("T", bound="OfferData")
 class OfferData:
     """
     Attributes:
-        offers (Union[Unset, list['Offer']]): List of pricing offers
+        offers (list[Offer] | Unset): List of pricing offers
     """
 
-    offers: Union[Unset, list["Offer"]] = UNSET
+    offers: list[Offer] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        offers: Union[Unset, list[dict[str, Any]]] = UNSET
+        offers: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.offers, Unset):
             offers = []
             for offers_item_data in self.offers:
@@ -44,12 +46,14 @@ class OfferData:
         from ..models.offer import Offer
 
         d = dict(src_dict)
-        offers = []
         _offers = d.pop("offers", UNSET)
-        for offers_item_data in _offers or []:
-            offers_item = Offer.from_dict(offers_item_data)
+        offers: list[Offer] | Unset = UNSET
+        if _offers is not UNSET:
+            offers = []
+            for offers_item_data in _offers:
+                offers_item = Offer.from_dict(offers_item_data)
 
-            offers.append(offers_item)
+                offers.append(offers_item)
 
         offer_data = cls(
             offers=offers,
