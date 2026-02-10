@@ -1,9 +1,11 @@
 {
-  "description": "Repo description",
-  "homepage": "https://github.com/kbrashears5/github-action-repo-sync",
+  "description": "A client library for accessing atom",
+  "homepage": "",
   "keywords": [
-    "sync",
-    "repo",
-    "metadata"
+    "atom",
+    "client",
+    "api",
+    "sdk",
+    "python"
   ]
 }
