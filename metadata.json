@@ -1,5 +1,5 @@
 {
-  "description": "A client library for accessing atom",
+  "description": "A client library for accessing atom tickets api",
   "homepage": "",
   "keywords": [
     "atom",
