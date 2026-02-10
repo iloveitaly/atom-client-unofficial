@@ -6,7 +6,7 @@
 atom_generate_client:
   uvx openapi-python-client@latest generate \
   --path ./atom.yaml \
-  --meta poetry \
+  --meta uv \
   --output-path atom-client \
   --overwrite
 
