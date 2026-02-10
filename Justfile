@@ -18,6 +18,6 @@ atom_generate_client:
 
 github_repo_set_metadata:
   gh repo edit \
-    --description "$(yq  '.project.description' pyproject.toml)" \
-    --homepage "$(yq '.project.urls.Repository' pyproject.toml)" \
-    --add-topic "$(yq '.project.keywords | join(",")' pyproject.toml)"
+    --description "$(jq -r '.description' metadata.json)" \
+    --homepage "$(jq -r '.homepage' metadata.json)" \
+    --add-topic "$(jq -r '.keywords | join(",")' metadata.json)"
