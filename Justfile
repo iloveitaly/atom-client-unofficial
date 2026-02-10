@@ -15,3 +15,9 @@ atom_generate_client:
   cd atom-client && \
     fastmod --accept-all 'isoformat\(\)' 'isoformat(timespec="seconds")'
   # && fastmod --accept-all 'isoformat\(timespec="seconds"\)' 'isoformat(timespec="seconds") + "Z"' -- atom_client/api/default/get_partner_v_1_showtime_details_by_venue_venue_id.py
+
+github_repo_set_metadata:
+  gh repo edit \
+    --description "$(yq  '.project.description' pyproject.toml)" \
+    --homepage "$(yq '.project.urls.Repository' pyproject.toml)" \
+    --add-topic "$(yq '.project.keywords | join(",")' pyproject.toml)"
