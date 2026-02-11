@@ -1,0 +1,41 @@
+name: Release-Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write # Required for OIDC publishing
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          release-type: python
+
+      # The following steps only run when a release is created
+      - name: Checkout Code
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        if: ${{ steps.release.outputs.release_created }}
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build Package
+        if: ${{ steps.release.outputs.release_created }}
+        run: uv build
+
+      - name: Publish to PyPI
+        if: ${{ steps.release.outputs.release_created }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # OIDC is enabled by default when id-token: write is present
+          verbose: true
