@@ -1,5 +1,6 @@
-# atom_client
-A client library for accessing atom
+# Unofficial Atom Tickets API Client
+
+A client library for accessing atom tickets API.
 
 ## Usage
 First, create a client:

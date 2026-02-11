@@ -25,3 +25,6 @@ github_repo_set_metadata:
     --description "$(jq -r '.description' metadata.json)" \
     --homepage "$(jq -r '.homepage' metadata.json)" \
     --add-topic "$(jq -r '.keywords | join(",")' metadata.json)"
+
+github_enable_actions:
+  gh api --method PUT repos/:owner/:repo/actions/permissions --field enabled=true
