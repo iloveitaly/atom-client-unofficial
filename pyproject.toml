@@ -23,3 +23,10 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["F", "I", "UP"]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.408",
+    "pytest>=8.4.2",
+    "ruff>=0.15.0",
+]
