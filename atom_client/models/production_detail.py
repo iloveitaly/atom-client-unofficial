@@ -79,7 +79,7 @@ class ProductionDetail:
 
         release_date: str | Unset = UNSET
         if not isinstance(self.release_date, Unset):
-            release_date = self.release_date.isoformat(timespec="seconds")
+            release_date = self.release_date.isoformat()
 
         atom_user_score = self.atom_user_score
 

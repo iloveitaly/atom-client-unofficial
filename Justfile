@@ -3,10 +3,47 @@
 # https://apidocs.atomtickets.com
 ##########################
 
-##########################
-# Tooling for Atom Tickets
-# https://apidocs.atomtickets.com
-##########################
+# Set up the Python environment
+setup:
+    uv venv && uv sync
+    @echo "activate: source ./.venv/bin/activate"
+
+# Run tests
+test:
+    uv run pytest -v
+
+# python linting checks
+[script]
+lint FILES=".":
+    set +e
+    exit_code=0
+
+    if [ -n "${CI:-}" ]; then
+        # CI mode: GitHub-friendly output
+        uv run ruff check --output-format=github {{FILES}} || exit_code=$?
+        uv run ruff format --check {{FILES}} || exit_code=$?
+
+        uv run pyright {{FILES}} --outputjson > pyright_report.json || exit_code=$?
+        jq -r \
+            --arg root "$GITHUB_WORKSPACE/" \
+            '
+                .generalDiagnostics[] |
+                .file as $file |
+                ($file | sub("^\\Q\($root)\\E"; "")) as $rel_file |
+                "::\(.severity) file=\($rel_file),line=\(.range.start.line),endLine=\(.range.end.line),col=\(.range.start.character),endColumn=\(.range.end.character)::\($rel_file):\(.range.start.line): \(.message)"
+            ' < pyright_report.json
+        rm pyright_report.json
+    else
+        # Local mode: regular output
+        uv run ruff check {{FILES}} || exit_code=$?
+        uv run ruff format --check {{FILES}} || exit_code=$?
+        uv run pyright {{FILES}} || exit_code=$?
+    fi
+
+    if [ $exit_code -ne 0 ]; then
+        echo "One or more linting checks failed"
+        exit 1
+    fi
 
 atom_generate_client:
   # Generate into a temporary directory
@@ -24,6 +61,9 @@ atom_generate_client:
   # https://github.com/openapi-generators/openapi-python-client/pull/1213
   # only *some* of the API endpoints require a Z at the end of the ISO date
   fastmod --accept-all 'isoformat\(\)' 'isoformat(timespec="seconds")' -- atom_client
+
+  # Fix regression in production_detail.py where date object doesn't support timespec
+  fastmod --accept-all 'isoformat\(timespec="seconds"\)' 'isoformat()' -- atom_client/models/production_detail.py
 
 # set publish permissions, update metadata, and protect master; all in one command
 github_setup: github_enable_actions github_repo_permissions_create github_repo_set_metadata github_ruleset_protect_master_create

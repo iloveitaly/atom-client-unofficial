@@ -21,7 +21,7 @@ wheels = [
 ]
 
 [[package]]
-name = "atom-client"
+name = "atom-client-unofficial"
 version = "1.0.0"
 source = { editable = "." }
 dependencies = [

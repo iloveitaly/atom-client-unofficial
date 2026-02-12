@@ -2,3 +2,4 @@
 python = "3.12"
 uv = "latest"
 just = "latest"
+direnv = "latest"

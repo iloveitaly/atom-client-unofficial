@@ -20,9 +20,14 @@ packages = ["atom_client"]
 
 [tool.ruff]
 line-length = 120
+exclude = ["examples"]
 
 [tool.ruff.lint]
 select = ["F", "I", "UP"]
+
+[tool.pyright]
+exclude = ["examples", ".venv", "**/__pycache__"]
+ignore = ["examples"]
 
 [dependency-groups]
 dev = [
